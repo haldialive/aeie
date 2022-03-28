@@ -1,0 +1,41 @@
+import pandas as pd
+import matplotlib.pyplot as plt
+import numpy as np
+%matplotlib inline
+
+df = pd.read_csv('Position_Salaries.csv')
+df
+
+plt.scatter(df.Level, df.Salary, color='red')
+
+x = df.iloc[:,1:2].values
+y = df.iloc[:,2].values
+
+from sklearn.linear_model import LinearRegression
+lin = LinearRegression()
+lin.fit(x,y)
+
+lin.score(x,y)
+
+from sklearn.preprocessing import PolynomialFeatures
+poly = PolynomialFeatures(degree=4)
+x_poly = poly.fit_transform(x)
+lin2 = LinearRegression()
+lin2.fit(x_poly,y)
+lin2.predict(x_poly)
+
+lin2.score(x_poly,y)
+
+plt.scatter(x,y,color='red')
+plt.plot(x, lin.predict(x), color='blue')
+
+plt.scatter(x,y,color='red')
+plt.plot(x, lin2.predict(poly.fit_transform(x)), color='blue')
+
+lin.predict([[10]])
+
+lin2.predict(poly.fit_transform([[10]]))
+
+lin2.coef_
+
+lin2.intercept_
